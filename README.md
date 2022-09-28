@@ -3,9 +3,13 @@ Usefull scripts that I use really often.
 
 ## **Summary**
 
-- download_mnager.py (*Keep your downloads clean*)
+- [download_mnager.py](#download-manager) (*Keep your downloads clean*)
+- [info.sh](#inforep) (*Know everything about your folder*)
+- [make.sh](#launch) (*Easy project setup*)
 
-### download_mnager.py
+## Download Manager
+
+### Description
 
 This is a little python3 script that you can put in your crontab or just call it with a simple command from your .bashrc or .zshrc like that.
 ```
@@ -26,3 +30,217 @@ It will divide your *Download* folder in 6 parts :
 - Other
 
 It will automatically put the downloaded files in the folder associated with.
+
+### Usage
+```
+$ python3 download_mnager.py
+```
+
+## Inforep
+
+### Description
+Bash script that will give you loads of information about the directory given in argument.
+
+It will say:
+
+- Languages uses in the folder (*With percentage for each one*)
+- Number if files
+- Number of directories
+- Number of code lines
+- Number of not code lines (*With what file type it is*)
+- Number of loops
+- Number of conditions
+
+If it's a git repository, it will add:
+
+- Date of first commit
+- Date of last commit
+- Number of commits
+- Number of contributors
+- Open issues
+- Closed issues
+- Total issues
+- Number of branches
+- Uncommited changes
+
+If it's a C project, it will add:
+
+- Epitech coding style checker
+
+And if the C project have a Makefile, it will add:
+
+- Comilation status
+- Unit tests informations
+- Coverage informations
+- Valgrind status
+
+It can be add to your .bashrc or your .zshrc file like that:
+
+```
+$ echo "alias inforep='~/scripts/info.sh'" >> .bashrc
+```
+or
+```
+$ echo "alias inforep='~/scripts/info.sh'" >> .zshrc
+```
+
+### Usage
+
+```
+$ ./info.sh [Folder to check](pwd by default)
+```
+
+### Example
+
+```
+$ inforep ~/my_rpg
+Running on my_rpg...
+
+---- Language ----
+C : ████████████████████████████████████████████████ (96,0115%)
+Makefile : █ (2,03912%)
+JSON :  (1,67361%)
+Python :  (0,275729%)
+
+---- Information ----
+Files : 18148.
+Directories : 45.
+Total : 15595 lines.
+Other : 96945 lines. (.a .png .jpg .ttf .ogg .log .md)
+Loops : 832.
+Conditions : 1424.
+
+---- Git info ----
+First commit : Mon Mar 21 12:51:26 2022 +0100
+Last commit : Thu May 12 22:25:26 2022 +0200
+Number of commits : 514
+Number of contributions : 7
+Open issues : 7
+Closed issues : 14
+Total issues : 21
+Number of branches : 14
+Issue state : █████████████████████████████████ █████████████████ (66,6667%)
+Uncommited changes : 4 files.
+
+---- Build ----
+Makefile OK
+
+---- Unit Test ----
+12 unit tests
+
+---- Coverage ----
+No coverage
+
+---- Valgrind ----
+No valgrind
+
+---- Norme ----
+Coding style error : 66
+Major : 17
+Minor : 47
+Info : 2
+Error state : ████████████ ███████████████████████████████████ █
+```
+
+## Launch
+
+### Description
+
+Bash script to begin your C projects more easily and faster. It will automatically :
+
+- Create the Makefile (*With your personal lib, the binary name you want, and the files you want*)
+- Import your lib headers
+- Import your lib files
+- Create the header for the project (*Protect for double inclusion*)
+- Create the main file (*Including the project header and with the name you want*)
+- Add a functional test file.
+- Add a git ignore file (*If you want to*)
+- Create the first commit (*In case of git repository*)
+
+Then you just have to type ```make``` and your project will compile perfectly.
+
+It can be add to your .bashrc or your .zshrc file like that:
+
+```
+$ echo "alias launch='~/scripts/make.sh'" >> .bashrc
+```
+or
+```
+$ echo "alias launch='~/scripts/make.sh'" >> .zshrc
+```
+
+### Usage
+
+```
+$ ./make.sh
+```
+### Example
+
+```
+$ ./make.sh
+$ tree
+.
+├── build
+│   └── build.py
+── include
+│   ├── project.h
+│   ├── lib_a.h
+│   ├── lib_b.h
+│   └── lib_c.h
+├── lib
+│   ├── lib_a
+│   │   ├── lib_a.c
+│   │   ├── [...]
+│   │   ├── Makefile
+│   │   └── lib_a.h
+│   ├── lib_b
+│   │   ├── lib_b.c
+│   │   ├── [...]
+│   │   ├── Makefile
+│   │   └── lib_b.h
+│   └── lib_c
+│       ├── lib_c.c
+│       ├── [...]
+│       ├── Makefile
+│       └── lib_c.h
+├── Makefile
+└── src
+    └── main.c
+```
+```
+$ cat src/main.c
+/*
+** EPITECH PROJECT, 2022
+** main.c
+** File description:
+** main
+*/
+
+#include "project.h"
+
+int main (UNUSED int ac, UNUSED char **argv, UNUSED char **env)
+{
+    return 0;
+}
+
+```
+```
+$ cat include/project.h
+/*
+** EPITECH PROJECT, 2022
+** project.h
+** File description:
+** project
+*/
+
+#ifndef PROJECT
+    #define PROJECT
+    #include "lib_a.h"
+    #include "lib_b.h"
+    #include "lib_c.h"
+
+    #include <stdbool.h>
+    #include <stddef.h>
+#endif
+
+```
