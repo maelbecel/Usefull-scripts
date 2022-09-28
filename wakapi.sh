@@ -86,4 +86,7 @@ draw_bar $((hours_to * 60 + minutes_to)) $((average))
 echo -ne "\e[01m\e[30m\e[47m"
 echo -e "Average time coding this week: $hours_av hours and $minutes_av minutes  per day."
 echo -e "\e[0m"
-rm ~/scripts/wakares.json
+
+if [ -f "~/scripts/wakares.json" ]; then
+    rm ~/scripts/wakares.json
+fi
