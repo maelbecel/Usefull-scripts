@@ -1,5 +1,5 @@
 # Usefull-scripts
-Usefull scripts that I use really often.
+Usefull scripts I create that I use really often.
 
 ## **Summary**
 
