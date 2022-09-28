@@ -7,6 +7,7 @@ Usefull scripts that I use really often.
 - [info.sh](#inforep) (*Know everything about your folder*)
 - [make.sh](#launch) (*Easy project setup*)
 - [norme.sh](#norme) (*Have a beautiful code*)
+- [wakapi.sh](#wakapi) (*Check your coding stat*)
 
 ## Download Manager
 
@@ -293,3 +294,41 @@ Running coding style checker...
 6 coding style error(s) report: 3 major, 2 minor, 1 info.
 
 ```
+
+## Wakapi
+
+### Description
+
+This is a bash integration for wakatime. This script will ask wakatime for your stat by your API URL and will show you in your terminal.
+It will show you :
+- Your coding time this week
+- Your coding time today
+- How far you are from the week average
+- The week average
+
+You just have to replace the ```apiurl``` variable with your own API URL, get the embeddable url from https://wakatime.com/share/embed/. Then select "JSON" and "Coding Activity" and click on "Get embeddable code". Finaly get the url in the AJAX code and paste it in apiurl
+
+It can be add to your .bashrc or your .zshrc file like that:
+
+```
+$ echo "alias wakapi='~/scripts/wakapi.sh'" >> .bashrc
+```
+or
+```
+$ echo "alias wakapi='~/scripts/wakapi.sh'" >> .zshrc
+```
+
+### Usage
+
+```
+$ ./wakapi.sh
+```
+
+### Example
+
+```
+$ ./wakapi.sh
+Total time coding this week: 16 hours and 18 minutes.
+Total time coding today: 1 hours and 40 minutes.
+████████████████████████ ██████████████████████████ -49%
+Average time coding this week: 3 hours and 15 minutes  per day.
