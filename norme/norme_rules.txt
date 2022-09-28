@@ -1,0 +1,41 @@
+C-O1 Contents of the repository
+C-O2 File Extension
+C-O3 File Coherence
+C-O4 Naming files and folders
+C-G1 File Header
+C-G2 Separation of functions
+C-G3 Indentation of preprocessor directives
+C-G4 Global variables
+C-G5 Include
+C-G6 Line ending
+C-G7 Trailing spaces
+C-G8 Leading/Trailing lines
+C-G9 Constant values
+C-F1 Coherence of functions
+C-F2 Naming functions
+C-F3 Number of columns
+C-F4 Number of lines
+C-F5 Number of parameters
+C-F6 Functions without parameters
+C-F7 Structures as parameters
+C-F8 Comments inside a functions
+C-F9 Nested functions
+C-L1 Code line contents
+C-L2 Indentation
+C-L3 Spaces
+C-L4 Curly brackets
+C-L5 Variable declarations
+C-L6 Line jumps
+C-V1 Naming identifiers
+C-V2 Structures
+C-V3 Pointers
+C-C1 Conditionnal branching
+C-C2 Ternary operators
+C-C3 Goto
+C-H1 Content of header
+C-H2 Include guard
+C-H3 Macros
+C-A1 Constant Pointers
+C-A2 Typing
+C-A3 Line break at the end of file
+C-A4 Static
