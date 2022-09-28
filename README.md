@@ -6,6 +6,7 @@ Usefull scripts that I use really often.
 - [download_mnager.py](#download-manager) (*Keep your downloads clean*)
 - [info.sh](#inforep) (*Know everything about your folder*)
 - [make.sh](#launch) (*Easy project setup*)
+- [norme.sh](#norme) (*Have a beautiful code*)
 
 ## Download Manager
 
@@ -242,5 +243,53 @@ $ cat include/project.h
     #include <stdbool.h>
     #include <stddef.h>
 #endif
+
+```
+
+## Norme
+
+### Description
+
+Bash script to check coding style errors based on the C Epitech Coding Style and on the Epitech Docker.
+
+It will give you back:
+- File of the error
+- Line of the error
+- Code of the error
+- Message of the error (*If you use -v*)
+And at the end :
+- Number of total of errors
+- Number of major errors
+- Number of minor errors
+- Number of information errors
+
+It can be add to your .bashrc or your .zshrc file like that:
+
+```
+$ echo "alias norme='~/scripts/norme/norme.sh'" >> .bashrc
+```
+or
+```
+$ echo "alias launch='~/scripts/norme/norme.sh'" >> .zshrc
+```
+
+### Usage
+```
+$ ./norme.sh [Directory to check] (Optional -v for error messages)
+```
+### Exemple
+
+```
+$ ./norme.sh my_directory -v
+Pulling docker for coding style checker...
+Running coding style checker...
+
+./src/main.c:10:C-L4 => Misplaced curly brackets
+./src/main.c:13:C-L3 => Misplaced spaces
+./src/main.c:31:C-F4 => Number of lines
+./src/main.c:32:C-F4 => Number of lines
+./src/main.c:33:C-F4 => Number of lines
+./src/main.c:34:C-A3 => Line break at the end of file
+6 coding style error(s) report: 3 major, 2 minor, 1 info.
 
 ```
