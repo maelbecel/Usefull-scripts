@@ -24,7 +24,9 @@ function update_line() {
             return
         fi
     done < $File
-    echo "Cannot stat error $Error in $File"
+    if [ ! -z "$Error" ]; then
+        echo "Cannot stat error $Error in $File"
+    fi
 }
 
 function show_output() {
@@ -67,5 +69,5 @@ else
 
     echo -e "\033[1mRunning coding style checker...\033[0m"
     sudo docker run --rm -i -v "$DELIVERY_DIR":"/mnt/delivery" -v "$REPORTS_DIR":"/mnt/reports" ghcr.io/epitech/coding-style-checker:latest "/mnt/delivery" "/mnt/reports" > /dev/null
-    [[ -f $EXPORT_FILE ]] && show_output
+    [[ -f $EXPORT_FILE ]] && cat $EXPORT_FILE >> tmplog && show_output
 fi
