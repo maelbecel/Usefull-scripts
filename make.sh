@@ -30,7 +30,7 @@ variable () {
     fi
     echo -e ""
     echo -e "INCLUDE      =         -I include/ -I include/lib/ -L lib/ \\
-                       -lmy -lmyprintf -lformatstring"
+                       -lmy -lmyprintf -lformatstring -lparser"
     echo -e ""
     echo -e "CFLAGS      +=         -Wall -Wextra -Werror -fvisibility=hidden \c" && echo '$(INCLUDE)'
     echo -e ""
@@ -71,6 +71,7 @@ rules () {
     echo -e '\t\t\t@($(ECHO) $(BOLD) $(GREEN)✓$(LIGHT_BLUE) \'
     echo -e '\t\t\t"SRC files sucessfully build. "$(DEFAULT))'
     echo -e '\t\t\t@make -C lib/my/ --no-print-directory'
+    echo -e '\t\t\t@make -C lib/parser/ --no-print-directory'
     echo -e '\t\t\t@make -C lib/myprintf/ --no-print-directory'
     echo -e '\t\t\t@make -C lib/formatstring/ --no-print-directory'
     echo -e '\t\t\t@gcc -o $(NAME) $(OBJ) $(INCLUDE) \'
@@ -82,6 +83,7 @@ rules () {
     echo -e ''
     echo -e 'clean:'
 	echo -e '\t\t\t@make -C lib/my/ clean --no-print-directory'
+	echo -e '\t\t\t@make -C lib/parser/ clean --no-print-directory'
 	echo -e '\t\t\t@make -C lib/myprintf/ clean --no-print-directory'
 	echo -e '\t\t\t@make -C lib/formatstring/ clean --no-print-directory'
 	echo -e '\t\t\t@$(RM) $(OBJ)'
@@ -90,6 +92,7 @@ rules () {
     echo -e ''
     echo -e 'fclean:\t\tclean'
 	echo -e '\t\t\t@make -C lib/myprintf/ fclean --no-print-directory'
+	echo -e '\t\t\t@make -C lib/parser/ fclean --no-print-directory'
 	echo -e '\t\t\t@make -C lib/formatstring/ fclean --no-print-directory'
 	echo -e '\t\t\t@make -C lib/my/ fclean --no-print-directory'
 	echo -e '\t\t\t@$(RM) $(NAME)'
@@ -296,6 +299,9 @@ addinclude () {
         fi
         if [ -f "$PWD/include/formatstring.h" ]; then
             echo '    #include "formatstring.h"'
+        fi
+        if [ -f "$PWD/include/parser.h" ]; then
+            echo '    #include "parser.h"'
         fi
         echo ""
         echo "    #include <stdbool.h>"
