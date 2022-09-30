@@ -8,6 +8,7 @@ Usefull scripts I create that I use really often.
 - [make.sh](#launch) (*Easy project setup*)
 - [norme.sh](#norme) (*Have a beautiful code*)
 - [wakapi.sh](#wakapi) (*Check your coding stat*)
+- [commitmoji.sh](#commitmoji) (*Add emojis to your commits*)
 
 ## Download Manager
 
@@ -332,3 +333,62 @@ Total time coding this week: 16 hours and 18 minutes.
 Total time coding today: 1 hours and 40 minutes.
 ████████████████████████ ██████████████████████████ -49%
 Average time coding this week: 3 hours and 15 minutes  per day.
+
+```
+
+## Commitmoji
+
+### Description
+
+Commitmoji is a simple way to keep your commits clean, fun and with a good format. It's based on the [Gitmoji](https://gitmoji.dev/) project and on the [Karma format](https://karma-runner.github.io/0.8/dev/git-commit-msg.html). It's a bash script that will ask you for a commit message and will add an emoji at the beginning of your commit message. It will also add and push your files. You just have to say what you want to commit and it will do it.
+
+### Usage
+
+```
+$ ./commitmoji.sh -h
+Usage: ./commitmoji.sh [OPTIONS]
+       OPTIONS           -h: Display this help
+                         -a: Commit as --amend
+Types:
+       feat
+       fix
+       docs
+       style
+       refactor
+       test
+       compiler
+       performances
+       deployment
+       security
+       remove
+       configuration
+       badcode
+       rename
+       assets
+       comment
+       accessibility
+       drunk
+       architecture
+       easteregg
+       gitignore
+       errorhandle
+       permissions
+
+```
+
+### Example
+
+```
+$ ./commitmoji.sh
+Type of commit: feat
+Files: commitmoji/commitmoji.sh
+Message : Add autopush possibilty
+Issues : 6
+In Work ? (y/n) : n
+
+Execute command: (git add commitmoji/commitmoji.sh && git commit -m "✨ (commitmoji/commitmoji.sh): Add autopush possibilty [#6]") ? (y/n) : y
+Sucess
+Push it ? (y/n) : y
+Sucess
+```
+
