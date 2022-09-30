@@ -386,6 +386,8 @@ Types:
 
 ```
 
+If you don't wanna add issues or messages, just press enter to continue.
+
 ### Example
 
 ```
