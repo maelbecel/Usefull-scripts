@@ -60,7 +60,7 @@ function get_files()
     files=""
     temp_files=()
     echo -ne "Files: "
-    read -r tmp
+    read -r -e tmp
     for i in ${tmp[@]}; do
         temp_files+=($i)
     done
