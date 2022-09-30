@@ -132,12 +132,17 @@ function main()
         command="$command [#$issues]\""
     fi
     echo
-    echo "Execute command: ($command) ? (y/n)"
+    echo -ne "Execute command: ($command) ? (y/n) : "
     read -r result
     if [ "$result" = "y" ]; then
         eval $command && echo "Sucess" || echo "Failed"
     else
         echo "Aborted"
+    fi
+    echo -ne "Push it ? (y/n) : "
+    read -r result
+    if [ "$result" = "y" ]; then
+        git push && echo "Sucess" || echo "Failed"
     fi
 }
 
