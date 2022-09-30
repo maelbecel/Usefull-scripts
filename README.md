@@ -342,6 +342,16 @@ Average time coding this week: 3 hours and 15 minutes  per day.
 
 Commitmoji is a simple way to keep your commits clean, fun and with a good format. It's based on the [Gitmoji](https://gitmoji.dev/) project and on the [Karma format](https://karma-runner.github.io/0.8/dev/git-commit-msg.html). It's a bash script that will ask you for a commit message and will add an emoji at the beginning of your commit message. It will also add and push your files. You just have to say what you want to commit and it will do it.
 
+It can be add to your .bashrc or your .zshrc file like that:
+
+```
+$ echo "alias commitmoji='~/scripts/commitmoji/commitmoj.sh'" >> .bashrc
+```
+or
+```
+$ echo "alias commitmoji='~/scripts/commitmoji/commitmoj.sh'" >> .zshrc
+```
+
 ### Usage
 
 ```
