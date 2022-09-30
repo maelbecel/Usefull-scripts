@@ -82,19 +82,29 @@ function get_message()
 
 function get_issues()
 {
-    issues=""
+    issues="["
     echo -ne "Issues : "
     read -r tmp
     re='^[0-9]+$'
-    if [[ $tmp =~ $re ]] ; then
-        issues="$tmp"
-    fi
+    temp_files=()
+    for i in ${tmp[@]}; do
+        temp_files+=($i)
+    done
+    for i in ${temp_files[@]}; do
+        if [[ $i =~ $re ]]; then
+            issues+="#$i"
+            if [[ $i != ${temp_files[${#temp_files[@]} - 1]} ]]; then
+                issues+=", "
+            fi
+        fi
+    done
+    issues+="]"
 }
 
 function get_in_work()
 {
     inwork=""
-    echo "In Work ? (y/n) : "
+    echo -ne "In Work ? (y/n) : "
     read -r tmp
     if [ $tmp = "y" ]; then
         inwork="🚧"
@@ -126,10 +136,10 @@ function main()
 
     command="$add && $command \"$types$inwork ($files): $message"
 
-    if [ -z "$issues" ]; then
+    if [[ "$issues" == "[]" ]]; then
         command="$command\""
     else
-        command="$command [#$issues]\""
+        command="$command $issues\""
     fi
     echo
     echo -ne "Execute command: ($command) ? (y/n) : "
@@ -138,6 +148,7 @@ function main()
         eval $command && echo "Sucess" || echo "Failed"
     else
         echo "Aborted"
+        exit 0
     fi
     echo -ne "Push it ? (y/n) : "
     read -r result
