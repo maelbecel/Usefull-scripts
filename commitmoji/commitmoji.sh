@@ -120,36 +120,51 @@ function main()
 
     if [ "$1" = "-a" ]; then
         command="$command --amend"
-    elif [ "$1" = "-h" ]; then
+    fi
+    if [ "$1" = "-h" ]; then
         help_menu
         exit 0
+    elif [[ "$1" == "-m" && ! -z "$2" ]]; then
+        if [ -z "$3" ]; then
+            branch="main"
+        else
+            branch=$3
+        fi
+        echo "Merge $2 on $branch ? (y/n)"
+        read input
+        if [ "$input" == "y" ]; then
+            git checkout $branch && git merge --no-edit $2 && git commit --amend -m "🔀 ($2/): Merge $2 with $branch" && echo "Sucess" || echo "Failed"
+        else
+            echo "Aborted"
+            exit 0
+        fi
+    elif [[ "$1" == "-a" || -z "$1" ]]; then
+        command="$command -m"
+
+        get_type
+        get_files
+        get_message
+        get_issues
+        get_in_work
+
+        command="$add && $command \"$types$inwork ($files): $message"
+
+        if [[ "$issues" == "[]" ]]; then
+            command="$command\""
+        else
+            command="$command $issues\""
+        fi
+        echo
+        echo -ne "Execute command: ($command) ? (y/n) : "
+        read -r result
+        if [ "$result" = "y" ]; then
+            eval $command && echo "Sucess" || echo "Failed"
+        else
+            echo "Aborted"
+            exit 0
+        fi
     fi
 
-
-    command="$command -m"
-
-    get_type
-    get_files
-    get_message
-    get_issues
-    get_in_work
-
-    command="$add && $command \"$types$inwork ($files): $message"
-
-    if [[ "$issues" == "[]" ]]; then
-        command="$command\""
-    else
-        command="$command $issues\""
-    fi
-    echo
-    echo -ne "Execute command: ($command) ? (y/n) : "
-    read -r result
-    if [ "$result" = "y" ]; then
-        eval $command && echo "Sucess" || echo "Failed"
-    else
-        echo "Aborted"
-        exit 0
-    fi
     echo -ne "Push it ? (y/n) : "
     read -r result
     if [ "$result" = "y" ]; then
