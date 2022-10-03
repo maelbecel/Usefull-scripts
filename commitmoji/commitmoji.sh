@@ -112,6 +112,11 @@ function get_in_work()
     fi
 }
 
+function leave()
+{
+    echo "Failed"
+    exit 0
+}
 
 function main()
 {
@@ -131,7 +136,7 @@ function main()
         else
             branch=$3
         fi
-        echo "Merge $2 on $branch ? (y/n)"
+        git pull origin $branch && echo "Merge $2 on $branch ? (y/n)" || leave
         read input
         if [ "$input" == "y" ]; then
             git checkout $branch && git merge --no-edit $2 && git commit --amend -m "🔀 ($2/): Merge $2 with $branch" && echo "Sucess" || echo "Failed"
