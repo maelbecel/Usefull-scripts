@@ -11,6 +11,11 @@ apiurl="https://wakatime.com/share/@maelbecel/d42f50c1-3a02-40ee-a8a4-7afd9a94d3
 
 json=$(curl -s "$apiurl")
 
+if [ -z "$json" ]; then
+    echo "No data"
+    exit 1
+fi
+
 res=$(echo $json | grep -o '"digital": "[^"]*' | grep -o '[^"]*$')
 
 IFS='\n \t' read -r -a array <<< $(echo $res)
