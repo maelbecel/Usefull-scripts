@@ -136,14 +136,15 @@ function main()
         else
             branch=$3
         fi
-        git pull origin $branch && echo "Merge $2 on $branch ? (y/n)" || leave
+        git switch $branch && git pull && echo "Merge $2 on $branch ? (y/n)" || leave
         read input
         if [ "$input" == "y" ]; then
-            git checkout $branch && git merge --no-edit $2 && git commit --amend -m "🔀 ($2/): Merge $2 with $branch" && echo "Sucess" || echo "Failed"
+            git switch $branch && git merge --no-edit $2 && git commit --amend -m "🔀 ($2/): Merge $2 with $branch" && echo "Sucess" || echo "Failed"
         else
             echo "Aborted"
-            exit 0
+            exit 1
         fi
+        exit 0;
     elif [[ "$1" == "-m" && -z "$2" ]]; then
         help_menu
         exit 0
@@ -170,7 +171,7 @@ function main()
             eval $command && echo "Sucess" || echo "Failed"
         else
             echo "Aborted"
-            exit 0
+            exit 1
         fi
     fi
 
@@ -182,3 +183,4 @@ function main()
 }
 
 main "$@"
+
