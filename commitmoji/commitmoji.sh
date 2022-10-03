@@ -16,6 +16,7 @@ function help_menu()
     echo "Usage: ./commitmoji.sh [OPTIONS]"
     echo "       OPTIONS           -h: Display this help"
     echo "                         -a: Commit as --amend"
+    echo "                         -m [branch to merge][with (default main)]: Merge two branches"
     echo "Types:"
     for i in ${type_list[@]}; do
         echo -ne "       $i\n"
@@ -138,6 +139,9 @@ function main()
             echo "Aborted"
             exit 0
         fi
+    elif [[ "$1" == "-m" && -z "$2" ]]; then
+        help_menu
+        exit 0
     elif [[ "$1" == "-a" || -z "$1" ]]; then
         command="$command -m"
 
