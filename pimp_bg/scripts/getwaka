@@ -1,0 +1,47 @@
+apiurl="https://wakatime.com/share/@maelbecel/d42f50c1-3a02-40ee-a8a4-7afd9a94d35c.json"
+
+json=$(curl -s "$apiurl")
+
+if [ -z "$json" ]; then
+    echo "No data"
+    exit 1
+fi
+
+res=$(echo $json | grep -o '"digital": "[^"]*' | grep -o '[^"]*$')
+
+IFS='\n \t' read -r -a array <<< $(echo $res)
+
+IFS=':' read -r -a today <<< $(echo ${array[-1]})
+
+
+hours=0
+minutes=0
+
+for element in "${array[@]}"
+do
+    IFS=':' read -r -a day <<< $(echo $element)
+    h=$(expr ${day[0]})
+    hours=$((hours + h))
+    m=$((10#$(expr ${day[1]})))
+    minutes=$((minutes + m))
+
+    if [ $minutes -ge 60 ]; then
+        hours=$((hours + 1))
+        minutes=$((minutes - 60))
+    fi
+done
+
+average=$((hours * 60 + minutes))
+average=$((average / 7))
+
+hours_av=$((average / 60))
+minutes_av=$((average % 60))
+
+hours_to=$((10#${today[0]}))
+minutes_to=$((10#${today[1]}))
+
+if [ -f "~/scripts/wakares.json" ]; then
+    rm ~/scripts/wakares.json
+fi
+
+echo -ne "$hours $minutes $hours_to $minutes_to $hours_av $minutes_av"
