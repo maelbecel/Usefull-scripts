@@ -1,0 +1,22 @@
+# Get IPinfo
+ipinfo=$(curl -s -L ipinfo.io)
+if [ -z "$ipinfo" ]; then
+    echo "No location found"
+    echo "No internet connection"
+    exit 1
+fi
+city=$(echo $ipinfo | jq -r '"\(.city)"')
+postal=$(echo $ipinfo | jq -r '"\(.postal)"')
+ip=$(echo $ipinfo | jq -r '"\(.ip)"')
+country=$(echo $ipinfo | jq -r '"\(.country)"')
+region=$(echo $ipinfo | jq -r '"\(.region)"')
+city_state=$(echo $ipinfo | jq -r '"\(.city),\(.region)"')
+openstreetmap=$(curl -s -L "https://nominatim.openstreetmap.org/search.php?q=$city_state&polygon_geojson=1&format=jsonv2")
+latitude=$(echo $openstreetmap | jq -r '"\(.[0].lat)"')
+longitude=$(echo $openstreetmap | jq -r '"\(.[0].lon)"')
+
+echo "$ip"
+echo "$city ($postal)"
+echo "$region ($country)"
+echo "Lat: $latitude"
+echo "Lon: $longitude"
