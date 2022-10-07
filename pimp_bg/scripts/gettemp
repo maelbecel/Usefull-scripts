@@ -1,0 +1,39 @@
+# Get IPinfo
+ipinfo=$(curl -s -L ipinfo.io)
+if [ -z "$ipinfo" ]; then
+    echo "No location found or no internet connection"
+    exit 1
+fi
+city_state=$(echo $ipinfo | jq -r '"\(.city),\(.region)"')
+ville=$(echo $city_state | cut -d ',' -f 1)
+
+# Get localisation with OpenStreetMap
+openstreetmap=$(curl -s -L "https://nominatim.openstreetmap.org/search.php?q=$city_state&polygon_geojson=1&format=jsonv2")
+latitude=$(echo $openstreetmap | jq -r '"\(.[0].lat)"')
+longitude=$(echo $openstreetmap | jq -r '"\(.[0].lon)"')
+
+# Get weather with OpenMeteo
+openmeteo=$(curl -s -L "https://api.open-meteo.com/v1/forecast?latitude=$latitude&longitude=$longitude&hourly=temperature_2m,precipitation,cloudcover,windspeed_10m,winddirection_10m")
+hours=$(echo $openmeteo | jq -r '"\(.hourly.time)"')
+temperatures=$(echo $openmeteo | jq -r '"\(.hourly.temperature_2m)"')
+precipitation=$(echo $openmeteo | jq -r '"\(.hourly.precipitation)"')
+cloudcover=$(echo $openmeteo | jq -r '"\(.hourly.cloudcover)"')
+windspeed=$(echo $openmeteo | jq -r '"\(.hourly.windspeed_10m)"')
+winddirection=$(echo $openmeteo | jq -r '"\(.hourly.winddirection_10m)"')
+HOURS=( $(jq -r '.[]' <<< "$hours") )
+TEMPERATURES=( $(jq -r '.[]' <<< "$temperatures") )
+PRECIPITATION=( $(jq -r '.[]' <<< "$precipitation") )
+CLOUDCOVER=( $(jq -r '.[]' <<< "$cloudcover") )
+WINDSPEED=( $(jq -r '.[]' <<< "$windspeed") )
+WINDDIRECTION=( $(jq -r '.[]' <<< "$winddirection") )
+i=0
+
+actualdate=$(date +%Y-%m-%dT%H:00)
+
+for tmpdate in ${HOURS[@]}; do
+    if [ "$tmpdate" = "$actualdate" ]; then
+        echo -n "${TEMPERATURES[$i]} ${PRECIPITATION[$i]} ${CLOUDCOVER[$i]} ${WINDSPEED[$i]} ${WINDDIRECTION[$i]}"
+        exit 0
+    fi
+    i=$((i+1))
+done

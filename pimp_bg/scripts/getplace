@@ -2,7 +2,7 @@
 ipinfo=$(curl -s -L ipinfo.io)
 if [ -z "$ipinfo" ]; then
     echo "No location found"
-    echo "No internet connection"
+    echo "No internet"
     exit 1
 fi
 city=$(echo $ipinfo | jq -r '"\(.city)"')
