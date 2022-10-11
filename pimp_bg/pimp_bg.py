@@ -44,7 +44,6 @@ font_path = "/home/mbecel/scripts/pimp_bg/Timeless.ttf"
 
 out = subprocess.Popen(['/bin/bash', '/home/mbecel/scripts/pimp_bg/scripts/getplace'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 stdout, stderr = out.communicate()
-print(stdout.decode('ASCII'))
 
 
 # Show hour
@@ -53,7 +52,7 @@ ImageDraw.Draw(background).text((1450, 40), f"{get_time(now.hour)}:{get_time(now
 
 # Show Info ip
 font = ImageFont.truetype(font=font_path, size=18)
-ImageDraw.Draw(background).text((1750, 50), f"{stdout.decode('ASCII')}", (255, 255, 255), font=font)
+ImageDraw.Draw(background).text((1750, 50), f"{stdout.decode('UTF-8')}", (255, 255, 255), font=font)
 
 # Show tiempo
 out = subprocess.Popen(['/bin/bash', '/home/mbecel/scripts/pimp_bg/scripts/gettemp'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -93,8 +92,15 @@ if (list_waka[0] != "No"):
     ImageDraw.Draw(background).text((1750, 855), f"{list_waka[0]}h {list_waka[1]}min", (255, 255, 255), font=font)
     ImageDraw.Draw(background).text((1750, 1015), f"{list_waka[4]}h {list_waka[5]}min", (255, 255, 255), font=font)
 
-    if (percentage >= 100):
+    if (percentage == 100):
         ImageDraw.Draw(background).line([(1460, 1000), (1710, 1000)], fill=(10, 255, 10), width=20)
+    elif (percentage > 100):
+        if (percentage > 200):
+            mx = ((((percentage - 100) * 250) / 100))
+        else:
+            mx = ((((percentage - 100) * 250) / 100))
+        ImageDraw.Draw(background).line([(1460, 1000), (1710, 1000)], fill=(10, 255, 10), width=20)
+        ImageDraw.Draw(background).line([(1460, 1020), (1460 + mx, 1020)], fill=(10, 255, 10), width=20)
     elif (percentage <= 0):
         ImageDraw.Draw(background).line([(1460, 1000), (1710, 1000)], fill=(255, 10, 10), width=20)
     else:
