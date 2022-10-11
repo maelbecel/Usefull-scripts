@@ -32,7 +32,8 @@ variable () {
     echo -e "INCLUDE      =         -I include/ -I include/lib/ -L lib/ \\
                        -lmy -lmyprintf -lformatstring -lparser"
     echo -e ""
-    echo -e "CFLAGS      +=         -Wall -Wextra -Werror -fvisibility=hidden \c" && echo '$(INCLUDE)'
+    echo -e "CFLAGS      +=         -Wall -Wextra -Werror -Wpedantic -fstack-protector \\"
+    echo -e '                       $(INCLUDE)'
     echo -e ""
     echo -e "SOURCES      =         src/"
     echo -e ""
