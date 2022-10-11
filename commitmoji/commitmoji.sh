@@ -13,10 +13,11 @@ docfile=~/scripts/commitmoji/commitmoji_doc.txt
 
 function help_menu()
 {
-    echo "Usage: ./commitmoji.sh [OPTIONS]"
+    echo "Usage: ./commitmoji.sh [OPTION]"
     echo "       OPTIONS           -h: Display this help"
     echo "                         -a: Commit as --amend"
     echo "                         -m [branch to merge][with (default main)]: Merge two branches"
+    echo "                         -w: automatise commit message from whatthecommit.com"
     echo "Types:"
     for i in ${type_list[@]}; do
         echo -ne "       $i\n"
@@ -148,12 +149,16 @@ function main()
     elif [[ "$1" == "-m" && -z "$2" ]]; then
         help_menu
         exit 0
-    elif [[ "$1" == "-a" || -z "$1" ]]; then
+    elif [[ "$1" == "-a" || -z "$1" || "$1" == "-w" ]]; then
         command="$command -m"
 
         get_type
         get_files
-        get_message
+        if [ "$1" = "-w" ]; then
+            message=$(curl -s whatthecommit.com/index.txt)
+        else
+            get_message
+        fi
         get_issues
         get_in_work
 
