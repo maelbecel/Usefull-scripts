@@ -108,7 +108,7 @@ function get_in_work()
     inwork=""
     echo -ne "In Work ? (y/n) : "
     read -r tmp
-    if [ $tmp = "y" ]; then
+    if [ "$tmp" == "y" ]; then
         inwork="🚧"
     fi
 }
@@ -125,10 +125,10 @@ function main()
     add="git add"
     command="git commit"
 
-    if [ "$1" = "-a" ]; then
+    if [ "$1" == "-a" ]; then
         command="$command --amend"
     fi
-    if [ "$1" = "-h" ]; then
+    if [ "$1" == "-h" ]; then
         help_menu
         exit 0
     elif [[ "$1" == "-m" && ! -z "$2" ]]; then
@@ -172,7 +172,7 @@ function main()
         echo
         echo -ne "Execute command: ($command) ? (y/n) : "
         read -r result
-        if [ "$result" = "y" ]; then
+        if [ "$result" == "y" ]; then
             eval $command && echo "Sucess" || echo "Failed"
         else
             echo "Aborted"
@@ -182,10 +182,9 @@ function main()
 
     echo -ne "Push it ? (y/n) : "
     read -r result
-    if [ "$result" = "y" ]; then
+    if [ "$result" == "y" ]; then
         git push && echo "Sucess" || echo "Failed"
     fi
 }
 
 main "$@"
-
