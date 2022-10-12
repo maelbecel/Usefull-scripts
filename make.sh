@@ -23,6 +23,7 @@ header () {
 
 #Add all variable need by makefile
 variable () {
+    binary=$1
     if [ -z "$1" ]; then
         echo -e "NAME         =        a.out"
     else
@@ -32,8 +33,9 @@ variable () {
     echo -e "INCLUDE      =         -I include/ -I include/lib/ -L lib/ \\
                        -lmy -lmyprintf -lformatstring -lparser"
     echo -e ""
-    echo -e "CFLAGS      +=         -Wall -Wextra -Werror -Wpedantic -fstack-protector \\"
-    echo -e '                       $(INCLUDE)'
+    echo -ne "CFLAGS       +=         -Wall -Wextra -pedantic \\
+					        -Wstrict-prototypes -fstack-protector\\
+					        -Wold-style-definition -std=c99 " && echo -e '$(INCLUDE)'
     echo -e ""
     echo -e "SOURCES      =         src/"
     echo -e ""
@@ -323,6 +325,16 @@ addlib () {
     fi
 }
 
+addlib_src ()
+{
+    if [ ! -d "$PWD/lib" ]; then
+        cp -R ~/delivery/Lib/lib/* $PWD/src/
+    fi
+    if [ ! -d "$PWD/include" ]; then
+        cp -R ~/delivery/Lib/include $PWD
+    fi
+}
+
 addmouli () {
     cp ~/delivery/Lib/mouli.sh $PWD
     cp -R ~/delivery/Lib/tests $PWD
@@ -377,6 +389,53 @@ addmain () {
     } > $PWD/src/$main.c
 }
 
+
+add_cmake ()
+{
+    if [ ! -f "$PWD/CMakeLists.txt" ]; then
+        {
+            echo "cmake_minimum_required(VERSION 3.16)"
+            echo "project($binary C)"
+            echo "include_directories(include)"
+            echo "set(INSTALL_DOC ON)"
+            echo "add_subdirectory(src)"
+            echo "add_subdirectory(include)"
+            echo ""
+        } > $PWD/CMakeLists.txt
+    fi
+    if [ ! -f "$PWD/include/CMakeLists.txt" ]; then
+        {
+            echo "file(GLOB include_H . *.h)"
+            echo 'install(FILES ${include_H} DESTINATION include)'
+            echo ""
+        } > $PWD/include/CMakeLists.txt
+    fi
+    if [ ! -f "$PWD/src/CMakeLists.txt" ]; then
+        {
+            echo "include_directories(include)"
+            echo ""
+            echo "add_subdirectory(formatstring)"
+            echo "add_subdirectory(my)"
+            echo "add_subdirectory(myprintf)"
+            echo "add_subdirectory(parser)"
+            echo "SET(PROJECT_LIBS formatstring my myprintf parser)"
+            echo ""
+            echo "add_executable($binary main.c)"
+            echo ""
+            echo -ne "TARGET_LINK_LIBRARIES($binary " && echo '${PROJECT_LIBS})'
+            echo "install(TARGETS $binary DESTINATION bin)"
+            echo ""
+        } > $PWD/src/CMakeLists.txt
+
+        cp -f ~/delivery/Lib/parser.h $PWD/include
+        cp -f ~/delivery/Lib/parser.h $PWD/src/parser
+        cp -f ~/delivery/Lib/get_line_pars.c $PWD/src/parser/json/get_line_pars.c
+        cp -f ~/delivery/Lib/get_update.c $PWD/src/parser/json/get_update.c
+        cp -f ~/delivery/Lib/builder $PWD/builder
+
+    fi
+}
+
 ################################################################### To get infos ###################################################################
 makeanim () {
     for (( actual=0; actual<=30; actual++ )); do
@@ -399,11 +458,12 @@ gethelp () {
     echo "    launch [OPTIONS]"
     echo ""
     echo "OPTIONS :"
-    echo "    -m    To get only the Makefile"
+    echo "    -a    To get only the main"
+    echo "    -cm   To build with CMakelists"
+    echo "    -h    To have help"
     echo "    -i    To get only the includes"
     echo "    -l    To get only the library"
-    echo "    -a    To get only the main"
-    echo "    -h    To have help"
+    echo "    -m    To get only the Makefile"
 }
 
 #To get informations
@@ -593,6 +653,31 @@ getinfo_main () {
     fi
 }
 
+ask_for_cmake ()
+{
+    breakbcl=0
+    while (( $breakbcl == 0 )); do
+        echo -e "                           \e[32m╬═══════════════════════════════════════╬"
+        echo -e "                           \e[32m║                                       ║"
+        echo -e "                           \e[32m║        \e[1mUse CMake ?                \e[0m\e[32m║"
+        echo -e "                           \e[32m║     \e[1m[Type 'yes' or 'no']              \e[0m\e[32m║"
+        echo -e "                           \e[32m╬═══════════════════════════════════════╬"
+        echo -e "\e[0m"
+        read temp
+        clear
+
+        if [ "${temp}" == "yes" ]; then
+            cmake=1
+            breakbcl=1
+        elif [ "${temp}" == "no" ]; then
+            cmake=0
+            breakbcl=1
+        else
+            breakbcl=0
+        fi
+    done
+}
+
 ################################################################### Main #################################################################################################################
 
 #For to get main
@@ -613,6 +698,34 @@ main () {
         getinfo_main
         addmain $main
         srcanim
+    elif [[ "$1" = "-cm" ]]; then
+            clear
+            getinfo_binary
+            clear
+            getinfo_include
+            clear
+            getinfo_main
+            clear
+            getinfo_ignore
+            clear
+            if [ ! -d "$PWD/lib" ]; then
+                libanim
+                clear
+            elif [ ! -d "$PWD/include" ]; then
+                includeanim
+                clear
+            fi
+            clear
+            srcanim
+            clear
+            addmain
+            addlib_src
+            getinfo_mouli
+            getinfo_push
+            add_cmake
+            addinclude
+            mkdir build
+            rm -R Makefile
     elif [[ "$1" != "" ]]; then
         gethelp
         exit 0
@@ -643,6 +756,7 @@ main () {
         echomake $binary $main
         getinfo_mouli
         getinfo_push
+        rm -R *.txt
     fi
     clear
     echo -e "                           \e[32m╬═══════════════════════════════════════╬"
