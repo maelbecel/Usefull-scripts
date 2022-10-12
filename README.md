@@ -161,6 +161,8 @@ Bash script to begin your C projects more easily and faster. It will automatical
 - Add a git ignore file (*If you want to*)
 - Create the first commit (*In case of git repository*)
 
+In case of a CMake project, it remove existing Makefile and create a CMakeLists.txt file, it also add CMakeLists for libs src and includes.
+
 Then you just have to type ```make``` and your project will compile perfectly.
 
 It can be add to your .bashrc or your .zshrc file like that:
