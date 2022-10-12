@@ -152,6 +152,7 @@ Error state : ████████████ █████████�
 Bash script to begin your C projects more easily and faster. It will automatically :
 
 - Create the Makefile (*With your personal lib, the binary name you want, and the files you want*)
+- Also can create a CMake project
 - Import your lib headers
 - Import your lib files
 - Create the header for the project (*Protect for double inclusion*)
