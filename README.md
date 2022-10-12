@@ -188,7 +188,7 @@ $ tree
 .
 ├── build
 │   └── build.py
-── include
+├── include
 │   ├── project.h
 │   ├── lib_a.h
 │   ├── lib_b.h
@@ -211,6 +211,37 @@ $ tree
 │       └── lib_c.h
 ├── Makefile
 └── src
+    └── main.c
+```
+```
+$ ./make.sh -cm
+$ tree
+.
+├── build
+├── include
+│   ├── project.h
+│   ├── CMakeLists.txt
+│   ├── lib_a.h
+│   ├── lib_b.h
+│   └── lib_c.h
+├── CMakeLists.txt
+└── src
+    ├── CMakeLists.txt
+    ├── lib_a
+    │   ├── lib_a.c
+    │   ├── [...]
+    │   ├── CMakeLists.txt
+    │   └── lib_a.h
+    ├── lib_b
+    │   ├── lib_b.c
+    │   ├── [...]
+    │   ├── CMakeLists.txt
+    │   └── lib_b.h
+    ├── lib_c
+    │   ├── lib_c.c
+    │   ├── [...]
+    │   ├── CMakeLists.txt
+    │   └── lib_c.h
     └── main.c
 ```
 ```
