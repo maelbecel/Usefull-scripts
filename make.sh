@@ -756,7 +756,7 @@ main () {
         echomake $binary $main
         getinfo_mouli
         getinfo_push
-        rm -R *.txt
+        find $PWD -type f -name 'CMakeLists.txt' -delete
     fi
     clear
     echo -e "                           \e[32m╬═══════════════════════════════════════╬"
@@ -771,4 +771,3 @@ main () {
 }
 
 main $1
-
