@@ -19,7 +19,7 @@ for elm in files:
   if (elm in nottouch or elm.split(".")[-1] in downloading):
     continue
   if (os.path.isfile(elm) == False):
-      os.system(f"mv /home/mbecel/Downloads/'{elm}' /home/mbecel/Downloads/other/")
+      os.system(f"cp -r /home/mbecel/Downloads/'{elm}' /home/mbecel/Downloads/other/ && rm -rf /home/mbecel/Downloads/'{elm}'")
       os.system(notif + f"{elm} already move to other folder\"")
       continue
   file = elm.split(".")
@@ -39,5 +39,5 @@ for elm in files:
     os.system(f"mv /home/mbecel/Downloads/'{elm}' /home/mbecel/Downloads/images/")
     os.system(notif + f"{elm} already move to images folder\"")
   else:
-    os.system(f"mv /home/mbecel/Downloads/'{elm}' /home/mbecel/Downloads/other/")
+    os.system(f"cp -r /home/mbecel/Downloads/'{elm}' /home/mbecel/Downloads/other/ && rm -r /home/mbecel/Downloads/'{elm}'")
     os.system(notif + f"{elm} already move to other folder\"")
