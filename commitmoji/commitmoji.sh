@@ -172,7 +172,7 @@ function main()
         echo
         echo -ne "Execute command: ($command) ? (y/n) : "
         read -r result
-        if [ "$result" == "y" ]; then
+        if [ "$result" == "y" ] || [ -z "$result" ]; then
             eval $command && echo "Sucess" || echo "Failed"
         else
             echo "Aborted"
@@ -182,7 +182,7 @@ function main()
 
     echo -ne "Push it ? (y/n) : "
     read -r result
-    if [ "$result" == "y" ]; then
+    if [ "$result" == "y" ] || [ -z "$result" ]; then
         git push && echo "Sucess" || echo "Failed"
     fi
 }
