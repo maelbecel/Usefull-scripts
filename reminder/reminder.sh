@@ -6,6 +6,8 @@
 
 REMINDER_FILE=~/scripts/reminder/reminder.txt
 
+# (crontab -l ; echo "* * * * * ~/scripts/reminder/reminder.sh -c")| crontab -
+
 function cat_readme() {
     echo ""
     echo "Usage: ./reminder.sh [OPTIONS]"
@@ -71,17 +73,19 @@ function remove_reminder() {
     echo "Are you sure? (y/n)"
     read Answer
     if [[ $Answer == "y" ]]; then
-        echo "" > $REMINDER_FILE
+        echo -n "" > $REMINDER_FILE
         echo "All reminders removed"
     fi
 }
 
 function check_reminder() {
+    echo "PASSED $(date +%H:%M:%S)" >~/scripts/reminder/reminder.log
     while read Line; do
         IFS=' ' read -ra  Reminder <<< "$Line"
         if [[ ${Reminder[1]} == $(date +%Y-%m-%d) ]]; then
             if [[ ${Reminder[2]} == $(date +%H:%M) ]]; then
-                echo "${Reminder[3]}"
+                read a b c d <<< "${Reminder[*]}"
+                kdialog --sorry "$(date +%H:%M)\n$d" 2> /dev/null &
             fi
         fi
     done < $REMINDER_FILE
@@ -92,7 +96,8 @@ function check_old_reminder() {
     while read Line; do
         IFS=' ' read -ra  Reminder <<< "$Line"
         if [[ ${Reminder[1]} < $(date +%Y-%m-%d) ]]; then
-            echo "Reminder: ${Reminder[3]}"
+            read a b c d <<< "${Reminder[*]}"
+            echo "$d"
         fi
     done < $REMINDER_FILE
 }
