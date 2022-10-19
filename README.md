@@ -393,6 +393,8 @@ $ ./commitmoji.sh -h
 Usage: ./commitmoji.sh [OPTIONS]
        OPTIONS           -h: Display this help
                          -a: Commit as --amend
+                         -w: to commit with whatthecommit
+                         -m: to commit a merge
 Types:
        feat
        fix
