@@ -79,7 +79,6 @@ function remove_reminder() {
 }
 
 function check_reminder() {
-    echo "PASSED $(date +%H:%M:%S)" >~/scripts/reminder/reminder.log
     while read Line; do
         IFS=' ' read -ra  Reminder <<< "$Line"
         if [[ ${Reminder[1]} == $(date +%Y-%m-%d) ]]; then
