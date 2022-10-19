@@ -441,3 +441,67 @@ Push it ? (y/n) : y
 Sucess
 ```
 
+## Reminder
+
+### Description
+
+Reminder will remind you of things you don't wanna forgot when you're working, you just have to say what do you wanna be reminded of and when. It will ask you for a message and a time and will remind you of it when the time is over.
+
+It can be add to your .bashrc or your .zshrc file like that:
+
+```
+reminder () {
+    while true; do
+        if [ "$(date +%S)" == "00" ]; then
+            ~/scripts/reminder/reminder.sh -c 2>/dev/null
+            sleep 1
+        fi
+    done
+}
+alias remind="~/scripts/reminder/reminder.sh"
+
+```
+
+### Usage
+
+You just need ```kdialog``` to use this script.
+
+```$ sudo apt install kdialog``` or ```$ sudo dnf install kdialog```
+
+```
+$ ./reminder.sh -h
+Usage: ./reminder.sh [OPTIONS]
+
+OPTIONS           -h: Display this help
+                  -a: Add a reminder
+                  -d: Delete a reminder
+                  -l: List all reminders
+                  -r: Remove all reminders
+                  -c: Check for reminders
+                  -p: Check for old reminders
+                  -o: Delete old reminders
+```
+
+### Example
+
+```
+$ ./reminder.sh -a
+Add a reminder
+Enter the reminder:
+Courses
+Enter the date (YYYY-MM-DD):
+2022-10-19
+Enter the time (HH:MM):
+17:50
+Reminder added
+```
+
+```
+$ ./reminder.sh -l
+List all reminders
+[Today]  1 2022-10-19 17:50 Courses
+[Today]  2 2022-10-19 11:59 A table
+[Future] 3 2022-10-20 11:59 Resto boulot
+[Old]    4 2022-10-18 16:00 Gouter
+```
+
