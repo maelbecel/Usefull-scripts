@@ -500,7 +500,7 @@ Reminder added
 $ ./reminder.sh -l
 List all reminders
 [Today]  1 2022-10-19 17:50 Courses
-[Today]  2 2022-10-19 11:59 A table
+[Now]  2 2022-10-19 11:59 A table
 [Future] 3 2022-10-20 11:59 Resto boulot
 [Old]    4 2022-10-18 16:00 Gouter
 ```
