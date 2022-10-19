@@ -9,6 +9,7 @@ Usefull scripts I create that I use really often.
 - [norme.sh](#norme) (*Have a beautiful code*)
 - [wakapi.sh](#wakapi) (*Check your coding stat*)
 - [commitmoji.sh](#commitmoji) (*Add emojis to your commits*)
+- [reminder.sh](#reminder) (*You will never forget anything*)
 
 ## Download Manager
 
