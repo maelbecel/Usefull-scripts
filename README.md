@@ -468,6 +468,9 @@ You just need ```kdialog``` to use this script.
 
 ```$ sudo apt install kdialog``` or ```$ sudo dnf install kdialog```
 
+```kdialog``` is really useful for creating popup.
+
+
 ```
 $ ./reminder.sh -h
 Usage: ./reminder.sh [OPTIONS]
