@@ -96,7 +96,7 @@ if (list_waka[0] != "No"):
         ImageDraw.Draw(background).line([(1460, 1000), (1710, 1000)], fill=(10, 255, 10), width=20)
     elif (percentage > 100):
         if (percentage > 200):
-            mx = ((((percentage - 100) * 250) / 100))
+            mx = 250
         else:
             mx = ((((percentage - 100) * 250) / 100))
         ImageDraw.Draw(background).line([(1460, 1000), (1710, 1000)], fill=(10, 255, 10), width=20)
