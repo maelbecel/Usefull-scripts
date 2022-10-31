@@ -123,7 +123,7 @@ function main()
 {
     list_type
     add="git add"
-    command="git commit"
+    command="git commit -S"
 
     if [ "$1" == "-a" ]; then
         command="$command --amend"
