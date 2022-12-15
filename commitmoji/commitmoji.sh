@@ -155,7 +155,7 @@ function main()
         get_type
         get_files
         if [ "$1" = "-w" ]; then
-            message=$(curl -s whatthecommit.com/index.txt)
+            message=$(curl -s https://whatthecommit.com/index.txt)
         else
             get_message
         fi
