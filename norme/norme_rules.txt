@@ -39,3 +39,20 @@ C-A1 Constant Pointers
 C-A2 Typing
 C-A3 Line break at the end of file
 C-A4 Static
+H-O1 Content of the delivery folder
+H-O2 File Extension
+H-O3 File Coherence
+H-O4 Naming files and folders
+H-05 Module exports
+H-G1 Epitech Header
+H-E1 Language extension
+H-T1 Top level bindings signatures
+H-M1 Mutable variable
+H-M2 Unsafe functions
+H-M3 Forbidden module imports
+H-F1 Coherence of functions
+H-F2 Naming functions
+H-V1 Naming identifiers
+H-C1 Conditionnal branching
+H-C2 Guards and ifs expressed as pattern matchings
+H-D1 Useless "do"
