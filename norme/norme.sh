@@ -70,4 +70,7 @@ else
     echo -e "\033[1mRunning coding style checker...\033[0m"
     sudo docker run --rm -i -v "$DELIVERY_DIR":"/mnt/delivery" -v "$REPORTS_DIR":"/mnt/reports" ghcr.io/epitech/coding-style-checker:latest "/mnt/delivery" "/mnt/reports" > /dev/null
     [[ -f $EXPORT_FILE ]] && cat $EXPORT_FILE >> tmplog && show_output
+    if [ -z $(cat tmplog) ]; then
+        rm tmplog
+    fi
 fi
