@@ -186,6 +186,7 @@ function main()
         git push && echo "Sucess" || echo "Failed"
     fi
     if [[ "$1" == "-wm" || "$1" == "-m" ]]; then
+        echo "Bangarang"
         ffplay -nodisp -autoexit Bangarang.mp3 >/dev/null 2>&1
     fi
 }
