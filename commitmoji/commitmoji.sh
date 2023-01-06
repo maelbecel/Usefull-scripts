@@ -149,12 +149,12 @@ function main()
     elif [[ "$1" == "-m" && -z "$2" ]]; then
         help_menu
         exit 0
-    elif [[ "$1" == "-a" || -z "$1" || "$1" == "-w" ]]; then
+    elif [[ "$1" == "-a" || -z "$1" || "$1" == "-w" || "$1" == "-wm" || "$1" == "-m" ]]; then
         command="$command -m"
 
         get_type
         get_files
-        if [ "$1" = "-w" ]; then
+        if [[ "$1" == "-w" || "$1" == "-wm" ]]; then
             message=$(curl -s https://whatthecommit.com/index.txt)
         else
             get_message
@@ -184,6 +184,9 @@ function main()
     read -r result
     if [ "$result" == "y" ] || [ -z "$result" ]; then
         git push && echo "Sucess" || echo "Failed"
+    fi
+    if [[ "$1" == "-wm" || "$1" == "-m" ]]; then
+        ffplay -nodisp -autoexit Bangarang.mp3 >/dev/null 2>&1
     fi
 }
 
