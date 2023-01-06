@@ -58,19 +58,21 @@ else
     if [[ $2 == "-v" ]]; then
         FLAG_V="true"
     fi
+    if [[ $1 == "-update" ]]; then
+        echo -e "\033[1mPulling docker for coding style checker...\033[0m"
+        sudo docker pull ghcr.io/epitech/coding-style-checker:latest && sudo docker image prune -f > /dev/null
+        exit 0
+    fi
     DELIVERY_DIR=$(readlink -f "$1")
     REPORTS_DIR=$(readlink -f .)
     EXPORT_FILE="$REPORTS_DIR"/coding-style-reports.log
     ### delete existing report file
     rm -f $EXPORT_FILE
 
-    echo -e "\033[1mPulling docker for coding style checker...\033[0m"
-    sudo docker pull ghcr.io/epitech/coding-style-checker:latest && sudo docker image prune -f > /dev/null
-
     echo -e "\033[1mRunning coding style checker...\033[0m"
     sudo docker run --rm -i -v "$DELIVERY_DIR":"/mnt/delivery" -v "$REPORTS_DIR":"/mnt/reports" ghcr.io/epitech/coding-style-checker:latest "/mnt/delivery" "/mnt/reports" > /dev/null
     [[ -f $EXPORT_FILE ]] && cat $EXPORT_FILE >> tmplog && show_output
-    if [ -z $(cat tmplog) ]; then
+    if [ -f tmplog ]; then
         rm tmplog
     fi
 fi
