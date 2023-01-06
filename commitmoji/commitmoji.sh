@@ -187,7 +187,7 @@ function main()
     fi
     if [[ "$1" == "-wm" || "$1" == "-m" ]]; then
         echo "Bangarang"
-        ffplay -nodisp -autoexit ~/scripts/commitmoji/Bangarang.mp3 >/dev/null
+        ffplay -nodisp -autoexit ~/scripts/commitmoji/Bangarang.mp3 >/dev/null 2>&1
     fi
 }
 
