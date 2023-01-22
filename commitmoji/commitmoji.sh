@@ -17,7 +17,7 @@ function chatgpt_response()
     response=$(curl -s https://api.openai.com/v1/completions \
                     -H "Content-Type: application/json" \
                     -H "Authorization: Bearer $api" \
-                    -d '{"model": "text-davinci-003","max_tokens": 1024, "prompt": "Give me a funny commit name for modifications of types:'"$name_types"' on this files: '"$files"'"}')
+                    -d '{"model": "text-davinci-003","max_tokens": 1024, "prompt": "Give me a funny commit name for a '"$name_types"' modification on this files: '"$files"'"}')
     echo $(echo $response | jq -r '.choices[0].text' | tr '$"' ' ')
 }
 
@@ -64,10 +64,7 @@ function get_type()
     read -r temp_types
     for i in ${temp_types[@]}; do
         types+=$(get_emoji $i)
-        name_types+="$i"
-        if [[ $i != ${temp_types[${#temp_types[@]} - 1]} ]]; then
-            name_types+=", "
-        fi
+        name_types=$i
     done
 }
 
