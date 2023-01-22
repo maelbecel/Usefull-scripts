@@ -11,6 +11,16 @@
 
 docfile=~/scripts/commitmoji/commitmoji_doc.txt
 
+function chatgpt_response()
+{
+    api=$(cat ~/scripts/commitmoji/chatgptapiKey)
+    response=$(curl -s https://api.openai.com/v1/completions \
+                    -H "Content-Type: application/json" \
+                    -H "Authorization: Bearer $api" \
+                    -d '{"model": "text-davinci-003","max_tokens": 1024, "prompt": "Give me a funny commit name for modifications of types:'"$name_types"' on this files: '"$files"'"}')
+    echo $(echo $response | jq -r '.choices[0].text' | tr '$"' ' ')
+}
+
 function help_menu()
 {
     echo "Usage: ./commitmoji.sh [OPTION]"
@@ -22,7 +32,6 @@ function help_menu()
     for i in ${type_list[@]}; do
         echo -ne "       $i\n"
     done
-    echo
 }
 
 function list_type()
@@ -50,10 +59,15 @@ function get_emoji()
 function get_type()
 {
     types=""
+    name_types=""
     echo -ne "Type of commit: "
     read -r temp_types
     for i in ${temp_types[@]}; do
         types+=$(get_emoji $i)
+        name_types+="$i"
+        if [[ $i != ${temp_types[${#temp_types[@]} - 1]} ]]; then
+            name_types+=", "
+        fi
     done
 }
 
@@ -149,13 +163,15 @@ function main()
     elif [[ "$1" == "-m" && -z "$2" ]]; then
         help_menu
         exit 0
-    elif [[ "$1" == "-a" || -z "$1" || "$1" == "-w" || "$1" == "-wm" || "$1" == "-m" ]]; then
+    elif [[ "$1" == "-a" || -z "$1" || "$1" == "-w" || "$1" == "-wm" || "$1" == "-m" || "$1" == "-c" ]]; then
         command="$command -m"
 
         get_type
         get_files
         if [[ "$1" == "-w" || "$1" == "-wm" ]]; then
             message=$(curl -s https://whatthecommit.com/index.txt)
+        elif [[ "$1" == "-c" ]]; then
+            message=$(chatgpt_response)
         else
             get_message
         fi
