@@ -8,8 +8,14 @@ if [ -z "$json" ]; then
 fi
 
 res=$(echo $json | grep -o '"digital": "[^"]*' | grep -o '[^"]*$')
-
 IFS='\n \t' read -r -a array <<< $(echo $res)
+
+week_day=$(date +%w)
+need_to_del=$((7 - week_day))
+for i in $(seq 1 $need_to_del)
+do
+    unset array[$i]
+done
 
 IFS=':' read -r -a today <<< $(echo ${array[-1]})
 
@@ -32,7 +38,7 @@ do
 done
 
 average=$((hours * 60 + minutes))
-average=$((average / 7))
+average=$((average / week_day))
 
 hours_av=$((average / 60))
 minutes_av=$((average % 60))
