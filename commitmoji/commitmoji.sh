@@ -17,7 +17,17 @@ function chatgpt_response()
     response=$(curl -s https://api.openai.com/v1/completions \
                     -H "Content-Type: application/json" \
                     -H "Authorization: Bearer $api" \
-                    -d '{"model": "text-davinci-003","max_tokens": 1024, "prompt": "Give me a funny commit name for a '"$name_types"' modification on this files: '"$files"'"}')
+                    -d '{"model": "text-davinci-003","max_tokens": 1024, "prompt": "Generate a fun commit message for a '"$name_types"' in : '"$files"'.The commit message shouldnt contain the name of the files"}')
+    echo $(echo $response | jq -r '.choices[0].text' | tr '$"' ' ')
+}
+
+function chatgpt_meme()
+{
+    api=$(cat ~/scripts/commitmoji/chatgptapiKey)
+    response=$(curl -s https://api.openai.com/v1/completions \
+                    -H "Content-Type: application/json" \
+                    -H "Authorization: Bearer $api" \
+                    -d '{"model": "text-davinci-003","max_tokens": 1024, "prompt": "Give me a fun phrase from a famous reference in the format : phrase - author (reference)"}')
     echo $(echo $response | jq -r '.choices[0].text' | tr '$"' ' ')
 }
 
@@ -28,6 +38,10 @@ function help_menu()
     echo "                         -a: Commit as --amend"
     echo "                         -m [branch to merge][with (default main)]: Merge two branches"
     echo "                         -w: automatise commit message from whatthecommit.com"
+    echo "                         -wm: automatise commit message from whatthecommit.com and add music at commit"
+    echo "                         -j: automatise commit message with a meme"
+    echo "                         -c: automatise commit message using ChatGPT, remember to"
+    echo "                             add your API key at ~/scripts/commitmoji/chatgptapiKey"
     echo "Types:"
     for i in ${type_list[@]}; do
         echo -ne "       $i\n"
@@ -160,7 +174,7 @@ function main()
     elif [[ "$1" == "-m" && -z "$2" ]]; then
         help_menu
         exit 0
-    elif [[ "$1" == "-a" || -z "$1" || "$1" == "-w" || "$1" == "-wm" || "$1" == "-m" || "$1" == "-c" ]]; then
+    elif [[ "$1" == "-a" || -z "$1" || "$1" == "-w" || "$1" == "-wm" || "$1" == "-c" || "$1" == "-j" ]]; then
         command="$command -m"
 
         get_type
@@ -169,6 +183,8 @@ function main()
             message=$(curl -s https://whatthecommit.com/index.txt)
         elif [[ "$1" == "-c" ]]; then
             message=$(chatgpt_response)
+        elif [[ "$1" == "-j" ]]; then
+            message=$(chatgpt_meme)
         else
             get_message
         fi
@@ -191,6 +207,9 @@ function main()
             echo "Aborted"
             exit 1
         fi
+    else
+        help_menu
+        exit 0
     fi
 
     echo -ne "Push it ? (y/n) : "
@@ -198,8 +217,8 @@ function main()
     if [ "$result" == "y" ] || [ -z "$result" ]; then
         git push && echo "Sucess" || echo "Failed"
     fi
-    if [[ "$1" == "-wm" || "$1" == "-m" ]]; then
-        echo "Bangarang"
+    if [[ "$1" == "-wm" ]]; then
+        echo "Now, it's time to Bangarang !"
         ffplay -nodisp -autoexit ~/scripts/commitmoji/Bangarang.mp3 >/dev/null 2>&1
     fi
 }
