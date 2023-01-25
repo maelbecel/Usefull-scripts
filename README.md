@@ -394,8 +394,12 @@ $ ./commitmoji.sh -h
 Usage: ./commitmoji.sh [OPTIONS]
        OPTIONS           -h: Display this help
                          -a: Commit as --amend
-                         -w: to commit with whatthecommit
-                         -m: to commit a merge
+                         -m [branch to merge][with (default main)]: Merge two branches
+                         -w: automatise commit message from whatthecommit.com
+                         -wm: automatise commit message from whatthecommit.com and add music at commit
+                         -j: automatise commit message with a meme
+                         -c: automatise commit message using ChatGPT, remember to
+                             add your API key at ~/scripts/commitmoji/chatgptapiKey
 Types:
        feat
        fix
