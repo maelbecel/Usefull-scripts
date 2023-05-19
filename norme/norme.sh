@@ -61,7 +61,7 @@ else
     if [[ $1 == "-update" ]]; then
         echo -e "\033[1mPulling docker for coding style checker...\033[0m"
         sudo docker pull ghcr.io/epitech/coding-style-checker:latest && sudo docker image prune -f > /dev/null
-        exit 0
+        exit -1
     fi
     DELIVERY_DIR=$(readlink -f "$1")
     REPORTS_DIR=$(readlink -f .)
@@ -75,4 +75,5 @@ else
     if [ -f tmplog ]; then
         rm tmplog
     fi
+    exit $(wc -l < $EXPORT_FILE)
 fi
